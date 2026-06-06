@@ -82,3 +82,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/cabang', \App\Livewire\BranchSetting::class)->name('cabang');
     });
 });
+Route::get('/cek', function () {
+    return 'Halo! Laravel berjalan dengan baik di Vercel!';
+});
