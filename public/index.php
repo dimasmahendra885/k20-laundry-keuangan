@@ -45,6 +45,25 @@ require __DIR__.'/../vendor/autoload.php';
 */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
+// --- KHUSUS SERVERLESS VERCEL ---
+if (isset($_SERVER['VERCEL'])) {
+    $app->useStoragePath('/tmp/storage');
+    $app->useBootstrapPath('/tmp/bootstrap');
+    
+    $directories = [
+        '/tmp/bootstrap/cache',
+        '/tmp/storage/framework/views',
+        '/tmp/storage/framework/cache/data',
+        '/tmp/storage/logs'
+    ];
+    
+    foreach ($directories as $dir) {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+    }
+}
+// --------------------------------
 
 $kernel = $app->make(Kernel::class);
 
