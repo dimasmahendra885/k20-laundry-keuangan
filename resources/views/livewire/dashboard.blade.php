@@ -110,7 +110,8 @@
                         <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Waktu</th>
                         <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Status Cucian</th>
                         <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Status Bayar</th>
-                        <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Total Bayar</th>
+                        <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Total Bayar</th>
+                        <th class="px-4 md:px-6 py-3 md:py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-outline-variant/30">
@@ -156,7 +157,10 @@
                                     {{ ucfirst(str_replace('_', ' ', $transaksi->status_pembayaran)) }}
                                 </span>
                             </td>
-                            <td class="px-4 md:px-6 py-3 md:py-4 text-right text-body-md font-semibold whitespace-nowrap">Rp {{ number_format($transaksi->total_bayar, 0, ',', '.') }}</td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 text-body-md font-semibold whitespace-nowrap">Rp {{ number_format($transaksi->total_bayar, 0, ',', '.') }}</td>
+                            <td class="px-4 md:px-6 py-3 md:py-4 text-right">
+                                <button class="material-symbols-outlined text-on-surface-variant hover:text-primary">more_vert</button>
+                            </td>
                         </tr>
                     @empty
                         <tr>

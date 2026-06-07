@@ -167,7 +167,7 @@ class Dashboard extends Component
         $endOfWeekPerformance = Carbon::now('Asia/Jakarta')->endOfWeek();
         
         $weeklyPerformance = Transaksi::withTrashed()->whereBetween('tanggal_masuk', [$startOfWeekPerformance, $endOfWeekPerformance])
-            ->selectRaw('DAYOFWEEK(tanggal_masuk) as day, COUNT(*) as count')
+            ->selectRaw('EXTRACT(DOW FROM tanggal_masuk) + 1 as day, COUNT(*) as count')
             ->groupBy('day')
             ->get()
             ->pluck('count', 'day')
@@ -219,7 +219,7 @@ class Dashboard extends Component
             $endOfWeek = $now->copy()->endOfWeek();
             
             $weeklyPerf = Transaksi::withTrashed()->whereBetween('tanggal_masuk', [$startOfWeek, $endOfWeek])
-                ->selectRaw('DAYOFWEEK(tanggal_masuk) as day, COUNT(*) as count')
+               ->selectRaw('EXTRACT(DOW FROM tanggal_masuk) + 1 as day, COUNT(*) as count')
                 ->groupBy('day')
                 ->get()
                 ->pluck('count', 'day')
