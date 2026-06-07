@@ -200,7 +200,7 @@ class Dashboard extends Component
             }
             
             $hourlyData = Transaksi::withTrashed()->whereDate('tanggal_masuk', $now)
-                ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+                ->selectRaw('EXTRACT(HOUR FROM created_at) as hour, COUNT(*) as count')
                 ->groupBy('hour')
                 ->get()
                 ->pluck('count', 'hour')
