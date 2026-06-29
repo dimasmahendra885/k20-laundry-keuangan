@@ -40,7 +40,13 @@ class DetergenForm extends Component
             $data['stok'] = 0;
         }
 
-        Detergen::updateOrCreate(['id' => $this->detergen_id], $data);
+        if ($this->detergen_id) {
+    // Jika sedang edit data
+    Detergen::where('id', $this->detergen_id)->update($data);
+} else {
+    // Jika sedang tambah data baru
+    Detergen::create($data);
+}
 
         session()->flash('message', 
             $this->detergen_id ? 'Data Deterjen Berhasil Diperbarui.' : 'Data Deterjen Berhasil Ditambahkan.');
