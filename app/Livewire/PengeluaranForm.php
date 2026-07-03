@@ -28,7 +28,7 @@ class PengeluaranForm extends Component
         }
     }
 
-    public function store()
+   public function store()
     {
         $this->validate([
             'tanggal' => 'required',
@@ -36,19 +36,26 @@ class PengeluaranForm extends Component
             'nominal' => 'required',
         ]);
 
-        Pengeluaran::updateOrCreate(['id' => $this->pengeluaran_id], [
+        $data = [
             'tanggal' => $this->tanggal,
             'kategori' => $this->kategori,
             'nominal' => $this->nominal,
             'keterangan' => $this->keterangan,
-        ]);
+        ];
+
+        if ($this->pengeluaran_id) {
+            // Jika sedang edit data
+            Pengeluaran::where('id', $this->pengeluaran_id)->update($data);
+        } else {
+            // Jika sedang tambah data baru
+            Pengeluaran::create($data);
+        }
 
         session()->flash('message', 
             $this->pengeluaran_id ? 'Data Pengeluaran Berhasil Diperbarui.' : 'Data Pengeluaran Berhasil Ditambahkan.');
 
         return redirect()->route('pengeluaran.index');
     }
-
     public function render()
     {
         return view('livewire.pengeluaran-form');
