@@ -28,12 +28,20 @@ class PelangganForm extends Component
             'nomor_hp' => 'required',
         ]);
 
-        Pelanggan::updateOrCreate(['id' => $this->pelanggan_id], [
+       $data = [
             'nama' => $this->nama,
             'nomor_hp' => $this->nomor_hp,
             'alamat' => $this->alamat,
             'catatan' => $this->catatan,
-        ]);
+        ];
+
+        if ($this->pelanggan_id) {
+            // Jika sedang edit data
+            Pelanggan::where('id', $this->pelanggan_id)->update($data);
+        } else {
+            // Jika sedang tambah data baru
+            Pelanggan::create($data);
+        }
 
         session()->flash('message', 
             $this->pelanggan_id ? 'Data Pelanggan Berhasil Diperbarui.' : 'Data Pelanggan Berhasil Ditambahkan.');
