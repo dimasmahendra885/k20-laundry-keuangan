@@ -75,7 +75,8 @@ class TransaksiForm extends Component
                 $isNew = false;
             }
 
-            $transaksi = Transaksi::updateOrCreate(['id' => $this->transaksi_id], [
+           // 1. Pindahkan semua data ke dalam array $data
+            $data = [
                 'kode_transaksi' => $kode,
                 'pelanggan_id' => $this->pelanggan_id,
                 'tanggal_masuk' => $this->tanggal_masuk,
@@ -89,7 +90,19 @@ class TransaksiForm extends Component
                 'tanggal_selesai' => $this->tanggal_selesai ?: null,
                 'status_cucian' => $this->status_cucian,
                 'catatan' => $this->catatan,
-            ]);
+            ];
+
+            // 2. Blok if-else untuk menyimpan atau memperbarui data
+            if ($this->transaksi_id) {
+                // Jika sedang edit data
+                Transaksi::where('id', $this->transaksi_id)->update($data);
+                
+                // Ambil kembali data transaksi untuk keperluan potong stok
+                $transaksi = Transaksi::find($this->transaksi_id);
+            } else {
+                // Jika sedang tambah data baru
+                $transaksi = Transaksi::create($data);
+            }
 
             // Pengurangan Stok Otomatis saat Transaksi Baru Dibuat
             if ($isNew && $this->status_cucian == 'proses') {
